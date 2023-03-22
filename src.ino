@@ -1,4 +1,4 @@
-// © Mark Steffes, inspired by https://www.instructables.com/Audio-Treasure-Hunt/ and https://www.youtube.com/watch?v=CC1LJgOTENY
+// © Mark Andrew Hans Steffes, inspired by https://www.instructables.com/Audio-Treasure-Hunt/ and https://www.youtube.com/watch?v=CC1LJgOTENY
 // my Proect uses the newer Mp3-Shield by Adafruit.
 
 // Don't forget to customize at least the check_buttons() function since you probably won't use the same Pins as me
