@@ -2,7 +2,7 @@
 // my Proect uses the newer Mp3-Shield by Adafruit.
 
 // Don't forget to customize at least the check_buttons() function since you probably won't use the same Pins as me
-// Look up the documentation for the Mp3-Shield to learn which mp3-file names you can use!
+// Look up the documentation for the Adafruit MusicMaker Mp3 Shield to learn more about how to name the mp3-files on the sd-card, otherwise they can't be played!
 
 // include SPI, Adafruit Mp3-Shield and SD libraries
 #include <SPI.h>
