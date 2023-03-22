@@ -9,7 +9,7 @@
 #include <Adafruit_VS1053.h>  // VS1053 Library is compatible with Mp3-Shield
 #include <SD.h>
 
-#define DEBOUNCE 100  // what is this?
+#define DEBOUNCE 100
 
 // Defining pins for Mp3-Shield (preset from example project)
 #define BREAKOUT_RESET 9  // VS1053 reset pin (output)
