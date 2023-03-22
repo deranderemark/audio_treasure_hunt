@@ -4,6 +4,9 @@
 // Don't forget to customize at least the check_buttons() function since you probably won't use the same Pins as me
 // Look up the documentation for the Adafruit MusicMaker Mp3 Shield to learn more about how to name the mp3-files on the sd-card, otherwise they can't be played!
 
+// The shield apparantly is able to be interrupted and this functionality is enabled through a pin in the code but this is just copied from the online documentation
+// I leave it in case anybody can use it but right now, button presses are not recognized while a file is played.
+
 // include SPI, Adafruit Mp3-Shield and SD libraries
 #include <SPI.h>
 #include <Adafruit_VS1053.h>  // VS1053 Library is compatible with Mp3-Shield
