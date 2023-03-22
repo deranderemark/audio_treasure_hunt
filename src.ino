@@ -166,7 +166,7 @@ void loop() {
 }
 
 // returns which button was pressed
-// change this function according to your button layout and pin layout
+// change this function according to your button and pin layout
 // I used the Mp3-Shield's included GPIOs for convinience. This way, you can only connect 6 Buttons since the first GPIO-Pin is some kind of special pin since the first GPIO-Pin is some kind of special pin
 byte check_buttons() {
   byte pressed = 0;
