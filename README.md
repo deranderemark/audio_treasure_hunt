@@ -6,3 +6,5 @@ They both use the waveshield by Adafruit which wasn't in stock when I wanted to 
 
 I used the code by instructables but made some changes. Mainly, I stored the secretCodes into a multidimensional array. This enables me to iterate over all of them instead of 
 stacking multiple conditional statements after eachother. It is easier to add more secretCodes afterwards this way.
+
+Link to Repository: https://github.com/deranderemark/audio_treasure_hunt
