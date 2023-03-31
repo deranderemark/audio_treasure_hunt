@@ -9,55 +9,56 @@
 
 // include SPI, Adafruit Mp3-Shield and SD libraries
 #include <SPI.h>
-#include <Adafruit_VS1053.h>  // VS1053 Library is compatible with Mp3-Shield
+#include <Adafruit_VS1053.h> // VS1053 Library is compatible with Mp3-Shield
 #include <SD.h>
 
-#define DEBOUNCE 100
-
 // Defining pins for Mp3-Shield (preset from example project)
-#define BREAKOUT_RESET 9  // VS1053 reset pin (output)
-#define BREAKOUT_CS 10    // VS1053 chip select pin (output)
-#define BREAKOUT_DCS 8    // VS1053 Data/command select pin (output)
+#define BREAKOUT_RESET 9 // VS1053 reset pin (output)
+#define BREAKOUT_CS 10   // VS1053 chip select pin (output)
+#define BREAKOUT_DCS 8   // VS1053 Data/command select pin (output)
 // These are the pins used for the music maker shield
-#define SHIELD_RESET -1  // VS1053 reset pin (unused!)
-#define SHIELD_CS 7      // VS1053 chip select pin (output)
-#define SHIELD_DCS 6     // VS1053 Data/command select pin (output)
+#define SHIELD_RESET -1 // VS1053 reset pin (unused!)
+#define SHIELD_CS 7     // VS1053 chip select pin (output)
+#define SHIELD_DCS 6    // VS1053 Data/command select pin (output)
 
 // These are common pins between breakout and shield
-#define CARDCS 4  // Card chip select pin
+#define CARDCS 4 // Card chip select pin
 // DREQ should be an Int pin, see http://arduino.cc/en/Reference/attachInterrupt
-#define DREQ 3  // VS1053 Data request, ideally an Interrupt pin
+#define DREQ 3 // VS1053 Data request, ideally an Interrupt pin
 
 Adafruit_VS1053_FilePlayer musicPlayer =
-  Adafruit_VS1053_FilePlayer(SHIELD_RESET, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS);  // Preset from online documentation
+    Adafruit_VS1053_FilePlayer(SHIELD_RESET, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS); // Preset from online documentation
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   Serial.println("Initializing Audio Treasure Hunt... ");
 
-  if (!musicPlayer.begin()) {  // initialise the music player
+  if (!musicPlayer.begin())
+  { // initialise the music player
     Serial.println(F("Couldn't find Mp3 Shield, do you have the right pins defined?"));
     while (1)
       ;
   }
   Serial.println(F("Mp3-Shield found"));
 
-  if (!SD.begin(CARDCS)) {
+  if (!SD.begin(CARDCS))
+  {
     Serial.println(F("SD failed, or not present"));
     while (1)
       ;
   }
 
   // Set volume for left, right channels. lower numbers == louder volume!
-  musicPlayer.setVolume(5, 5);
+  musicPlayer.setVolume(2, 2);
 
-  musicPlayer.useInterrupt(VS1053_FILEPLAYER_PIN_INT);  // DREQ int
+  musicPlayer.useInterrupt(VS1053_FILEPLAYER_PIN_INT); // DREQ int
 
   Serial.println("Done initializing Audio Treasure Hunt!");
 }
 
-void loop() {
-
+void loop()
+{
   // This Array includes all secret codes, secretCodes[CodeNumber][pressedIndex]
   // Every secretCode consists of six numbers.
   const int amountOfCodes = 30;
@@ -67,33 +68,33 @@ void loop() {
 
       {5, 5, 1, 5, 1, 3},
       {2, 2, 2, 2, 2, 2},
-      {1, 0, 3, 5, 1, 1},
-      {3, 2, 4, 4, 2, 0},
-      {2, 0, 5, 6, 0, 6},
-      {6, 1, 6, 0, 1, 6},
+      {2, 5, 6, 5, 3, 1},
+      {6, 4, 4, 6, 2, 6},
+      {5, 4, 6, 4, 2, 5},
+      {1, 1, 6, 3, 4, 2},
       {2, 6, 4, 6, 1, 5},
-      {0, 0, 0, 0, 0, 0},
+      {                },
       {5, 5, 5, 5, 5, 5},
-      {2, 0, 4, 1, 2, 1},
+      {3, 4, 5, 3, 6, 5},
       {6, 1, 5, 4, 5, 1},
-      {3, 0, 4, 4, 6, 5},
-      {0, 3, 5, 4, 6, 2},
+      {4, 4, 3, 4, 2, 4},
+      {1, 5, 2, 2, 2, 3},
       {5, 3, 2, 4, 2, 2},
-      {0, 0, 0, 0, 0, 0},
+      {                },
       {4, 4, 4, 4, 4, 4},
-      {2, 0, 3, 5, 3, 3},
-      {4, 6, 0, 0, 0, 0},
+      {3, 5, 2, 3, 6, 4},
+      {5, 5, 4, 6, 5, 3},
       {3, 6, 2, 6, 2, 3},
       {3, 1, 5, 3, 6, 5},
-      {5, 0, 1, 3, 2, 6},
-      {0, 0, 0, 0, 0, 0},
+      {6, 2, 1, 5, 1, 5},
+      {                },  
       {6, 6, 6, 6, 6, 6},
       {6, 1, 3, 1, 5, 3},
-      {0, 2, 0, 1, 6, 0},
+      {1, 2, 4, 6, 3, 6},
       {3, 3, 5, 6, 2, 3},
       {2, 5, 5, 4, 2, 3},
       {3, 4, 2, 5, 3, 2},
-      {0, 0, 0, 0, 0, 0},
+      {                },
       {1, 2, 3, 4, 5, 6},
 
       // New Codes can be added here. Don't forget to change the lenght of the Array!
@@ -102,41 +103,48 @@ void loop() {
 
   // Button Input
   // if you want to change the amount of buttons, change the 1. length of the enteredCode[] Array, 2. the for loops header and 3. the condition including correct keys
-  int enteredCode[6] = { 0, 0, 0, 0, 0, 0 };  // Array for buttonInput | 1.
+  int enteredCode[6] = {0, 0, 0, 0, 0, 0}; // Array for buttonInput | 1.
   int correctKeys = 0;
   int success = 0;
-  byte pressed;  //stores values of button pressed
+  byte pressed; // stores values of button pressed
   int i = 0;
 
   // 2.
   // Iterate over all buttons via check_buttons() until a button is pressed
-  for (i = 0; i < 6; i++) {
-    do {
+  for (i = 0; i < 6; i++)
+  {
+    do
+    {
       pressed = check_buttons();
     } while (pressed < 1);
 
     enteredCode[i] = pressed;
     delay(500);
-    Serial.println(enteredCode[i]);  // Debugging
+    Serial.println(enteredCode[i]); // Debugging
   }
 
   // 2.
   // Debugging
-  for (i = 0; i < 6; ++i) {
+  for (i = 0; i < 6; ++i)
+  {
     Serial.print(enteredCode[i]);
   }
   Serial.println();
 
   // Check if enteredCode[] matches with one code inside of secretCodes[][]
-  for (int secretCode = 0; secretCode < amountOfCodes; ++secretCode) {
-    for (int chara = 0; chara < 6; ++chara) {  // 2.
-      if (enteredCode[chara] == secretCodes[secretCode][chara]) {
-        correctKeys = correctKeys + 1;
+  for (int secretCode = 0; secretCode < amountOfCodes; ++secretCode)
+  {
+    for (int chara = 0; chara < 6; ++chara)
+    { // 2.
+      if (enteredCode[chara] == secretCodes[secretCode][chara])
+      {
+        ++correctKeys;
       }
     }
 
     // 3.
-    if (correctKeys == 6) {
+    if (correctKeys == 6)
+    {
       Serial.print("Matching Code found at ");
       Serial.println(secretCode);
       Serial.print("Playing secret message no. ");
@@ -144,7 +152,7 @@ void loop() {
 
       // Play secretMessage
       musicPlayer.stopPlaying();
-      String path = "/" + String(secretCode) + ".mp3";  // (name your secretmessages according to this scheme)
+      String path = "/" + String(secretCode) + ".mp3"; // (name your secretmessages according to this scheme)
       musicPlayer.playFullFile(path.c_str());
 
       success = 1;
@@ -154,9 +162,12 @@ void loop() {
   }
 
   // Errorhandler
-  if (success == 1) {
+  if (success == 1)
+  {
     success = 0;
-  } else {
+  }
+  else
+  {
     Serial.println("No matching code found!");
 
     musicPlayer.stopPlaying();
@@ -166,15 +177,18 @@ void loop() {
 
 // returns which button was pressed
 // change this function according to your button and pin layout
-// I used the Mp3-Shield's included GPIOs for convinience. This way, you can only connect 6 Buttons since the first GPIO-Pin is some kind of special pin 
+// I used the Mp3-Shield's included GPIOs for convinience. This way, you can only connect 6 Buttons since the first GPIO-Pin is some kind of special pin
 // since the first GPIO-Pin is some kind of special pin
-byte check_buttons() {
+byte check_buttons()
+{
   byte pressed = 0;
 
-  for (uint8_t i = 2; i < 8; i++) {  // The first GPIO-Pin is not used!
+  for (uint8_t i = 2; i < 8; i++)
+  { // The first GPIO-Pin is not used!
     musicPlayer.GPIO_pinMode(i, INPUT);
 
-    if (musicPlayer.GPIO_digitalRead(i) != 0) {
+    if (musicPlayer.GPIO_digitalRead(i) != 0)
+    {
       pressed = i - 1;
 
       musicPlayer.stopPlaying();
@@ -182,5 +196,5 @@ byte check_buttons() {
       musicPlayer.playFullFile("/feedback.mp3");
     }
   }
-  return (pressed);  // returns which button was pressed
+  return (pressed); // returns which button was pressed
 }
